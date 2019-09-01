@@ -3,11 +3,11 @@ from random import *
 def pickAWord():
 
     wordList = []
-    file = open("words.txt", 'r')
+    with open("words.txt", "r") as file:
 
-    for word in file:
+        for word in file:
 
-        wordList.append(word.strip())
+            wordList.append(word.strip())
 
     return wordList[randint(0, len(wordList) - 1)]
 
@@ -68,23 +68,25 @@ def Game():
 
             print(f"Congrats! You found the word! It's \"{word}\"")
 
-print("Welcome to the hangman python game!")
-gamesPlayed = 0
+if __name__ == '__main__':
 
-while(1):
+    print("Welcome to the hangman python game!")
+    gamesPlayed = 0
 
-    gamesPlayed += 1
-    print(f"This is your {gamesPlayed} game")
+    while True:
 
-    print("Please wait so the program will pick up the word")
-    Game()
+        gamesPlayed += 1
+        print(f"This is your {gamesPlayed} game")
 
-    answer = input("Do you want to continue? y/n?: ")
+        print("Please wait so the program will pick up the word")
+        Game()
 
-    if answer == 'n':
+        answer = input("Do you want to continue? y/n?: ")
 
-        break;
+        if answer == 'n':
 
-print(f"It was fun playing with {gamesPlayed} games with you!")
+            break
 
-print("End of program")
+    print(f"It was fun playing with {gamesPlayed} games with you!")
+
+    print("End of program")
