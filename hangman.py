@@ -17,10 +17,12 @@ def Game():
     lettersFound = []
     Found = False
 
+    numOfTries = 0
+
     for letter in word:
         lettersFound.append("_")
 
-    while not Found:
+    while not Found and numOfTries < 3:
 
         print(f"The word has {len(word)} and you found so far {len(word) - len(lettersFound)}")
 
@@ -31,5 +33,20 @@ def Game():
             print(letter, end='')
 
         answer = input("\nGuess a letter: ")
+
+        if answer in word:
+
+            print("You found a letter!")
+
+            for i in range(len(word)):
+
+                if word[i] == answer:
+
+                    lettersFound[i] = word[i]
+
+        else:
+
+            print("Wrong answer. This letter doesn't exist on the word")
+            numOfTries += 1
 
 Game()
