@@ -7,7 +7,7 @@ def pickAWord():
 
     for word in file:
 
-        wordList.append(word)
+        wordList.append(word.strip())
 
     return wordList[randint(0, len(wordList) - 1)]
 
@@ -18,13 +18,14 @@ def Game():
     Found = False
 
     numOfTries = 0
+    foundSoFar = 0
 
     for letter in word:
         lettersFound.append("_")
 
     while not Found and numOfTries < 3:
 
-        print(f"The word has {len(word)} and you found so far {len(word) - len(lettersFound)}")
+        print(f"The word has {len(word)} and you found so far {foundSoFar}")
 
         print("Those are: ", end='')
 
@@ -43,10 +44,15 @@ def Game():
                 if word[i] == answer:
 
                     lettersFound[i] = word[i]
+                    foundSoFar += 1
 
         else:
 
             print("Wrong answer. This letter doesn't exist on the word")
             numOfTries += 1
+
+        if(numOfTries == 3):
+
+            print(f"You lost....\nThe word was \"{word}\".")
 
 Game()
