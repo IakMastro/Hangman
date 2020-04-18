@@ -1,92 +1,21 @@
-from random import *
+from game import Game
 
-def pickAWord():
+hangman = Game()
 
-    wordList = []
-    with open("words.txt", "r") as file:
+print("Got a word")
+while hangman.running:
+    print(f"Letters found so far: {hangman.letters}")
+    print(f"Number of tries: {hangman.tries}")
+    guess = input("Guess a letter: ")
+    
+    if hangman.letter_in_word(guess):
+        print("Correct guess!")
 
-        for word in file:
+        if '_' not in hangman.letters:
+            print(f"Congrats! You found the word! It's {hangman.word}")
+            hangman.running = False
 
-            wordList.append(word.strip())
-
-    return wordList[randint(0, len(wordList) - 1)]
-
-def Game():
-
-    word = pickAWord()
-    lettersFound = []
-    Found = False
-
-    numOfTries = 0
-    foundSoFar = 0
-
-    for letter in word:
-        lettersFound.append("_")
-
-    while not Found and numOfTries < 10:
-
-        print(f"Number of tries left: {10 - numOfTries}")
-        print(f"The word has {len(word)} and you found so far {foundSoFar}")
-
-        print("Those are: ", end='')
-
-        for letter in lettersFound:
-
-            print(letter, end='')
-
-        answer = input("\nGuess a letter: ")
-
-        if answer in word and answer not in lettersFound:
-
-            print("You found a letter!")
-
-            Found = True
-
-            for i in range(len(word)):
-
-                if word[i] == answer:
-
-                    lettersFound[i] = word[i]
-                    foundSoFar += 1
-
-                if Found:
-
-                    if lettersFound[i] != word[i]:
-
-                        Found = False
-
-        else:
-
-            print("Wrong answer. This letter doesn't exist on the word")
-            numOfTries += 1
-
-        if numOfTries == 10:
-
-            print(f"You lost....\nThe word was \"{word}\".")
-
-        if Found:
-
-            print(f"Congrats! You found the word! It's \"{word}\"")
-
-if __name__ == '__main__':
-
-    print("Welcome to the hangman python game!")
-    gamesPlayed = 0
-
-    while True:
-
-        gamesPlayed += 1
-        print(f"This is your {gamesPlayed} game")
-
-        print("Please wait so the program will pick up the word")
-        Game()
-
-        answer = input("Do you want to continue? y/n?: ")
-
-        if answer == 'n':
-
-            break
-
-    print(f"It was fun playing with {gamesPlayed} games with you!")
-
-    print("End of program")
+    else:
+        print("Wrong guess")
+        if hangman.tries == 0:
+            print(f"Game Over! You lost! The word was {hangman.word}")
